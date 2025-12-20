@@ -1,0 +1,30 @@
+name: MLflow CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: Install Dependencies
+        run: |
+          pip install mlflow scikit-learn numpy
+
+      - name: Run MLflow Project
+        run: |
+          # Masuk ke folder proyek terlebih dahulu
+          cd MLProject_Folder
+          
+          # Jalankan MLflow menggunakan titik (.) untuk menandakan proyek lokal
+          mlflow run . --experiment-name "Weather_CI" --env-manager=local
